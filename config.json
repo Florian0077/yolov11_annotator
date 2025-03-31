@@ -1,0 +1,13 @@
+{
+    "model_dir": "model",
+    "model_file": "best.pt",
+    "output_dir": "auto_dataset",
+    "class_names": [
+      "action", "activation_table", "attention", "all", "context_adapt", "context_table", 
+      "controle", "ecm_data", "ecm_history", "ecm_validation", "figure", "footer", 
+      "header", "header_2", "important", "info", "metrology", "nota", "point_de_mesure", 
+      "rapport", "releve_date", "releve_simple", "relevé\tde valeurs", "renvoi", "suite",
+      "tableau", "titre_1", "titre_2", "titre_3", "background"
+    ],
+    "confidence_threshold": 0.2
+  }
