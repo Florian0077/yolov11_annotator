@@ -239,7 +239,7 @@ class PredictionApp:
         self.status_label.pack(side=tk.LEFT, padx=10)
 
         # Remplacez 'Votre Société' par le nom de votre entreprise ou votre nom
-        self.company_name = 'MME-SI - Florian VARY'
+        self.company_name = 'Florian0077'
         self.year = '2024'
         copyright_text = f"© {self.year} {self.company_name}"
         copyright_padding = (10, 5)
