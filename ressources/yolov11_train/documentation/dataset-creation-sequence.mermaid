@@ -1,0 +1,47 @@
+sequenceDiagram
+    actor User as Utilisateur
+    participant InputDir as Dossier input
+    participant Converter as pdf-to-png-converter.py
+    participant OutputDir as Dossiers page_xxx
+    participant LabelImg as LabelImg.exe
+    participant MoveScript as move_pairs.py
+    participant Dataset as Dossier dataset
+    participant YOLO as YOLO V11
+    
+    User->>InputDir: Placement des PDF
+    User->>Converter: Exécution du script
+    Converter->>InputDir: Lecture des PDF
+    Converter->>Converter: Analyse du nombre max de pages
+    Converter->>OutputDir: Création de dossiers par page
+    
+    loop Pour chaque PDF
+        Converter->>Converter: Conversion PDF en images PNG
+        Converter->>OutputDir: Sauvegarde des images par page
+    end
+    
+    Converter-->>User: Rapport de conversion
+    
+    User->>User: Normalisation des labels
+    User->>OutputDir: Sélection des dossiers à annoter
+    
+    loop Pour chaque dossier sélectionné
+        User->>LabelImg: Ouverture de l'outil
+        User->>LabelImg: Configuration des labels
+        
+        loop Pour chaque image PNG
+            User->>LabelImg: Annotation des éléments
+            LabelImg->>OutputDir: Sauvegarde des XML d'annotation
+        end
+    end
+    
+    User->>MoveScript: Exécution du script
+    
+    loop Pour chaque dossier configuré
+        MoveScript->>OutputDir: Recherche des paires PNG/XML
+        MoveScript->>MoveScript: Vérification des correspondances
+        MoveScript->>Dataset: Déplacement avec préfixe de page
+    end
+    
+    MoveScript-->>User: Statistiques et vérification
+    User->>YOLO: Configuration pour entraînement
+    User->>YOLO: Lancement de l'entraînement avec dataset

@@ -1,0 +1,43 @@
+flowchart TD
+    A[Documents PDF] --> B[Dossier input]
+    B --> C[Script pdf-to-png-converter.py]
+    C --> D[Conversion PDF en PNG]
+    D --> E[Organisation par pages\ndossiers page_001, page_002, etc.]
+    
+    E --> F[Sélection des dossiers à annoter]
+    F --> G[Normalisation des labels]
+    G --> H[Annotation manuelle avec labelImg.exe]
+    H --> I[Fichiers PNG avec XML d'annotation]
+    
+    I --> J[Script move_pairs.py]
+    J --> K[Déplacement des paires PNG/XML\nvers dossier dataset]
+    K --> L[Dataset complet pour\nl'entraînement YOLO V11]
+    
+    subgraph "Phase 1: Préparation des images"
+        A
+        B
+        C
+        D
+        E
+    end
+    
+    subgraph "Phase 2: Annotation"
+        F
+        G
+        H
+        I
+    end
+    
+    subgraph "Phase 3: Consolidation du dataset"
+        J
+        K
+        L
+    end
+    
+    %% Données intermédiaires
+    classDef dataNode fill:#f9f,stroke:#333,stroke-width:1px;
+    class A,B,E,I,K,L dataNode;
+    
+    %% Processus
+    classDef processNode fill:#bbf,stroke:#333,stroke-width:1px;
+    class C,D,F,G,H,J processNode;

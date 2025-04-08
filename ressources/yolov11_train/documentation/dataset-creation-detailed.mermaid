@@ -1,0 +1,36 @@
+flowchart TD
+    PDF[Documents PDF] -->|Placement dans| INPUT[Dossier input]
+    
+    INPUT -->|Traitement par| CONVERTER["pdf-to-png-converter.py\n(PDF2Image)"]
+    CONVERTER -->|Conversion avec| DPI["DPI=300"]
+    DPI -->|Découpage en| PAGES[Images PNG de chaque page]
+    
+    PAGES -->|Organisation en| FOLDERS["Structure de dossiers:\n/output/page_001\n/output/page_002\n..."]
+    
+    FOLDERS -->|Sélection manuelle| SELECT["Dossiers sélectionnés:\npage_001, page_002, page_007,\npage_008, page_009, page_010, page_021"]
+    
+    SELECT -->|Préparation pour| LABELING["Phase d'annotation"]
+    
+    LABELING -->|Établissement de| NORM["Normalisation des labels:\n- Type1\n- Type2\n- Type3\n..."]
+    
+    NORM -->|Utilisation de| LABELIMG["labelImg.exe\n(Outil d'annotation)"]
+    
+    LABELIMG -->|Création manuelle de| ANNO["Fichiers d'annotation XML\n(format PASCAL VOC)"]
+    
+    ANNO -->|Résultat| PAIRS["Paires fichiers PNG/XML\ndans chaque dossier page_xxx"]
+    
+    PAIRS -->|Traitement par| MOVE_SCRIPT["move_pairs.py"]
+    
+    MOVE_SCRIPT -->|Vérification des paires| VERIFY["Vérification:\n- PNG avec XML correspondant\n- Statistiques"]
+    
+    VERIFY -->|Déplacement vers| DATASET["Dossier dataset unique\nContenant toutes les paires\navec préfixe de numéro de page"]
+    
+    DATASET -->|Prêt pour| TRAIN["Entraînement YOLO V11"]
+    
+    %% Données intermédiaires
+    classDef dataNode fill:#f9f,stroke:#333,stroke-width:1px;
+    class PDF,INPUT,FOLDERS,PAIRS,DATASET dataNode;
+    
+    %% Processus
+    classDef processNode fill:#bbf,stroke:#333,stroke-width:1px;
+    class CONVERTER,DPI,PAGES,SELECT,LABELING,NORM,LABELIMG,ANNO,MOVE_SCRIPT,VERIFY,TRAIN processNode;

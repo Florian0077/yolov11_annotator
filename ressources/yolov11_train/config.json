@@ -1,0 +1,7 @@
+{
+    "data_dir": "H:/yoloDoc/autopredict/auto_dataset",
+    "split_ratio": 0.2,
+    "epochs": 100,
+    "batch_size": 16,
+    "img_size": 640
+}

@@ -1,0 +1,27 @@
+flowchart TD
+    PDF[Document PDF] --> SPLIT[Séparation en pages]
+    SPLIT --> IMG[Conversion pages en images]
+    
+    subgraph "Pour chaque page"
+        IMG --> YOLO[Modèle YOLO spécialisé]
+        YOLO --> DETECT[Détection des éléments métiers]
+        DETECT --> COORD[Coordonnées + Types d'éléments]
+        COORD --> XML_TEMP[XML intermédiaire par page]
+        XML_TEMP --> EXTRACT[Extraction des zones d'éléments]
+        EXTRACT --> VLM[Vision Language Model]
+        VLM --> OCR[Reconnaissance de texte]
+        OCR --> CONTENT[Contenu textuel]
+    end
+    
+    CONTENT --> COMBINE[Combinaison coordonnées + types + contenu]
+    COMBINE --> STRUCT[Structuration selon schéma]
+    STRUCT --> VALID[Validation XSD]
+    VALID --> XML_FINAL[Document XML structuré final]
+    
+    %% Données intermédiaires
+    classDef dataNode fill:#f9f,stroke:#333,stroke-width:1px;
+    class PDF,IMG,COORD,XML_TEMP,CONTENT,XML_FINAL dataNode;
+    
+    %% Processus
+    classDef processNode fill:#bbf,stroke:#333,stroke-width:1px;
+    class SPLIT,YOLO,DETECT,EXTRACT,VLM,OCR,COMBINE,STRUCT,VALID processNode;

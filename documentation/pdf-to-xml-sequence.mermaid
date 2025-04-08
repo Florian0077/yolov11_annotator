@@ -1,0 +1,28 @@
+sequenceDiagram
+    participant PDF as Document PDF
+    participant Processor as Processeur d'images
+    participant YOLO as Modèle YOLO
+    participant XMLTemp as XML Intermédiaire
+    participant VLM as Vision Language Model
+    participant XMLBuilder as Constructeur XML
+    participant Validator as Validateur XSD
+    
+    PDF->>Processor: Envoi du document
+    loop Pour chaque page
+        Processor->>Processor: Conversion page en image
+        Processor->>YOLO: Envoi de l'image
+        YOLO->>YOLO: Détection des éléments métiers
+        YOLO->>XMLTemp: Sauvegarde coordonnées et types
+        XMLTemp->>Processor: Informations de localisation
+        Processor->>Processor: Extraction des zones d'éléments
+        Processor->>VLM: Envoi des éléments extraits
+        VLM->>VLM: OCR des éléments
+        VLM->>XMLBuilder: Envoi contenu textuel
+        XMLTemp->>XMLBuilder: Envoi coordonnées et types
+    end
+    XMLBuilder->>XMLBuilder: Construction du document structuré
+    XMLBuilder->>Validator: Envoi XML généré
+    Validator->>Validator: Validation avec schéma XSD
+    Validator-->>XMLBuilder: Rapport de validation
+    XMLBuilder->>XMLBuilder: Corrections éventuelles
+    XMLBuilder-->>PDF: Document XML structuré final

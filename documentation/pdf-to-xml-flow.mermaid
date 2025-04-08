@@ -1,0 +1,30 @@
+flowchart TD
+    A[Document PDF] --> B[Conversion pages en images]
+    B --> C[Détection d'éléments via YOLO]
+    C --> D[Sauvegarde XML intermédiaire\navec coordonnées et types]
+    D --> E[Extraction des éléments détectés]
+    E --> F[OCR via VLM]
+    F --> G[Reconstruction XML final]
+    G --> H[Validation avec schéma XSD]
+    H --> I[Document XML structuré]
+    
+    subgraph "Phase 1: Prétraitement"
+        A
+        B
+    end
+    
+    subgraph "Phase 2: Détection"
+        C
+        D
+    end
+    
+    subgraph "Phase 3: Extraction de contenu"
+        E
+        F
+    end
+    
+    subgraph "Phase 4: Structuration"
+        G
+        H
+        I
+    end
